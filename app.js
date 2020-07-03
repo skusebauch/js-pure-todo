@@ -1,5 +1,6 @@
 // selectors
 const todoInput = document.querySelector(".todo__input");
+console.log(todoInput);
 const todoButton = document.querySelector(".todo__button");
 const todoList = document.querySelector(".todo__list");
 
@@ -25,7 +26,7 @@ function addTodo(event) {
 
   // create li
   const newTodo = document.createElement("li");
-  newTodo.innerText = "hey this is just test";
+  newTodo.innerText = todoInput.value;
   newTodo.classList.add("todo__descr");
   // I take the div and put the li item inside
   todoDiv.appendChild(newTodo);
@@ -46,4 +47,7 @@ function addTodo(event) {
 
   // append all to ul list
   todoList.appendChild(todoDiv);
+
+  // after all i want to get rid of the text
+  todoInput.value = "";
 }
