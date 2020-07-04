@@ -32,6 +32,11 @@ form button {
   background-color: rgb(240, 240, 240);
 }
 
+input:focus,
+button:focus {
+  outline: none;
+}
+
 form button {
   color: #343a40;
   background-color: rgb(240, 240, 240);
@@ -87,4 +92,10 @@ form button:hover {
 }
 .btn-trash {
   color: rgb(241, 67, 67);
+}
+
+/* to avoid the pointer event of the icon */
+.fa-trash,
+.fa-check {
+  pointer-events: none;
 }

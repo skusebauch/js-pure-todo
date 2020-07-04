@@ -7,6 +7,7 @@ const todoList = document.querySelector(".todo__list");
 // Event Listener
 
 todoButton.addEventListener("click", addTodo);
+todoList.addEventListener("click", deleteCheck);
 
 // Functions
 function addTodo(event) {
@@ -50,4 +51,20 @@ function addTodo(event) {
 
   // after all i want to get rid of the text
   todoInput.value = "";
+}
+
+function deleteCheck(event) {
+  const item = event.target;
+  // DELETE TODO
+  if (item.classList[0] === "btn-trash") {
+    // assign item to the entire parent Element - that we can delete everything instead of only the button class.
+    const todo = item.parentElement;
+    todo.remove();
+  }
+
+  // CHECK TODO
+  if (item.classList[0] === "btn-completed") {
+    const todo = item.parentElement;
+    todo.classList.toggle("completed");
+  }
 }
