@@ -59,7 +59,11 @@ function deleteCheck(event) {
   if (item.classList[0] === "btn-trash") {
     // assign item to the entire parent Element - that we can delete everything instead of only the button class.
     const todo = item.parentElement;
-    todo.remove();
+    todo.classList.add("fall");
+    //todo.remove(); to acvoid immediately deleting of this element you can create a eventlistener to just wait till the animations end
+    todo.addEventListener("transitionend", function () {
+      todo.remove();
+    });
   }
 
   // CHECK TODO
