@@ -1,13 +1,14 @@
 // selectors
 const todoInput = document.querySelector(".todo__input");
-console.log(todoInput);
 const todoButton = document.querySelector(".todo__button");
 const todoList = document.querySelector(".todo__list");
+const filterOption = document.querySelector(".select__filter-todo");
 
 // Event Listener
 
 todoButton.addEventListener("click", addTodo);
 todoList.addEventListener("click", deleteCheck);
+filterOption.addEventListener("change", filterTodo);
 
 // Functions
 function addTodo(event) {
@@ -71,4 +72,32 @@ function deleteCheck(event) {
     const todo = item.parentElement;
     todo.classList.toggle("completed");
   }
+}
+
+function filterTodo(event) {
+  // to get a nodelist of all childs of the <ul class="todo__list"> elements
+  const todos = todoList.childNodes;
+  todos.forEach(function (todo) {
+    // switch i get back the three values of the select/option (all, completed, uncompleted)
+    switch (event.target.value) {
+      case "all":
+        // display: activate our flex class otherwise display none
+        todo.style.display = "flex";
+        break;
+      case "completed":
+        if (todo.classList.contains("completed")) {
+          todo.style.display = "flex";
+        } else {
+          todo.style.display = "none";
+        }
+        break;
+      case "uncompleted":
+        if (!todo.classList.contains("completed")) {
+          todo.style.display = "flex";
+        } else {
+          todo.style.display = "none";
+        }
+        break;
+    }
+  });
 }
