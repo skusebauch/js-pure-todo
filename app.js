@@ -5,7 +5,7 @@ const todoList = document.querySelector(".todo__list");
 const filterOption = document.querySelector(".select__filter-todo");
 
 // Event Listener
-
+document.addEventListener("DOMContentLoaded", getTodos);
 todoButton.addEventListener("click", addTodo);
 todoList.addEventListener("click", deleteCheck);
 filterOption.addEventListener("change", filterTodo);
@@ -32,6 +32,9 @@ function addTodo(event) {
   newTodo.classList.add("todo__descr");
   // I take the div and put the li item inside
   todoDiv.appendChild(newTodo);
+
+  //Add todo to localstorage
+  saveLocalTodos(todoInput.value);
 
   // check mark button
   const completedButton = document.createElement("button");
@@ -61,6 +64,7 @@ function deleteCheck(event) {
     // assign item to the entire parent Element - that we can delete everything instead of only the button class.
     const todo = item.parentElement;
     todo.classList.add("fall");
+    removeLocalTodos(todo);
     //todo.remove(); to acvoid immediately deleting of this element you can create a eventlistener to just wait till the animations end
     todo.addEventListener("transitionend", function () {
       todo.remove();
@@ -100,4 +104,65 @@ function filterTodo(event) {
         break;
     }
   });
+}
+
+function saveLocalTodos(todo) {
+  let todos;
+  // check do i already have thing in there
+  if (localStorage.getItem("todos") === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem("todos"));
+  }
+  todos.push(todo);
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function getTodos() {
+  let todos;
+  if (localStorage.getItem("todos") === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem("todos"));
+  }
+  todos.forEach(function (todo) {
+    const todoDiv = document.createElement("div");
+    todoDiv.classList.add("todo__item");
+
+    // create li
+    const newTodo = document.createElement("li");
+    newTodo.innerText = todo;
+    newTodo.classList.add("todo__descr");
+    // I take the div and put the li item inside
+    todoDiv.appendChild(newTodo);
+
+    // check mark button
+    const completedButton = document.createElement("button");
+    // to add itag to the button not text - need to use innerHTML instead of innerTEXT
+    completedButton.innerHTML = '<i class="fas fa-check"></i>';
+    completedButton.classList.add("btn-completed");
+    todoDiv.appendChild(completedButton);
+
+    // check trash button
+    const trashButton = document.createElement("button");
+    // to add itag to the button not text - need to use innerHTML instead of innerTEXT
+    trashButton.innerHTML = '<i class="fas fa-trash"></i>';
+    trashButton.classList.add("btn-trash");
+    todoDiv.appendChild(trashButton);
+
+    // append all to ul list
+    todoList.appendChild(todoDiv);
+  });
+}
+
+function removeLocalTodos(todo) {
+  let todos;
+  if (localStorage.getItem("todos") === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem("todos"));
+  }
+  const todoIndex = todo.children[0].innerTextM;
+  todos.splice(todos.indexOf(todoIndex), 1);
+  localStorage.setItem("todos", JSON.stringify(todos));
 }
